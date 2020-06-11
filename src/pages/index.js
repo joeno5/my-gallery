@@ -1,21 +1,57 @@
 import React from "react"
-import { Link } from "gatsby"
-
+import { Link, graphql } from "gatsby"
+import { Checkbox, Typography } from "@material-ui/core"
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
+import { makeStyles } from "@material-ui/core/styles"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const useStyles = makeStyles({
+  myText: {
+    fontStyle: "oblique",
+    fontSize: "24px",
+    color: "red",
+    marginTop: 20,
+  },
+})
+
+const IndexPage = ({ data }) => {
+  const classes = useStyles()
+
+  return (
+    <Layout>
+      <SEO title="Home" />
+      <div>
+        <h2>Google Sheets</h2>
+        {data.allGoogleSpreadsheetData.edges.map(({ node }) => (
+          <div key={node.aa}>
+            <Link to={node.fields.slug}>{node.customerName}</Link>
+          </div>
+        ))}
+      </div>
+      <div>
+        <Typography className={classes.myText} variant="h2" color="primary">
+          Material UI
+        </Typography>
+        <Checkbox color="primary" checked />
+      </div>
+    </Layout>
+  )
+}
 
 export default IndexPage
+
+export const query = graphql`
+  query {
+    allGoogleSpreadsheetData {
+      edges {
+        node {
+          aa
+          customerName
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  }
+`
