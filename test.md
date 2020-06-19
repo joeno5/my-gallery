@@ -10,3 +10,5 @@ author: joe
 do something for issue #2
 ```
 > Greate!
+
+This is `inline code`.
